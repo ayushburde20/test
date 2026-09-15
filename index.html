@@ -167,7 +167,7 @@
 </div>
 
 <div id="musicPill">
-  <audio id="bgAudio" src="https://github.com/ayushburde20/test/blob/main/AUDIO-2026-09-15-17-05-13.m4a" loop preload="none"></audio>
+  <audio id="bgAudio" src="C:\Users\ayush.vijay.burde\Downloads\AUDIO-2026-09-15-17-05-13.m4a" loop preload="none"></audio> 
   <button id="musicBtn">🎵</button>
   <span id="musicLabel" style="display:none;">Playing your song…</span>
 </div>
@@ -282,15 +282,7 @@ function runCountdown(){
 }
 
 // ---------- music (placeholder pill — no real audio file in this preview) ----------
-const audio = document.getElementById('bgAudio'); 
-  const musicBtn = document.getElementById('musicBtn'); 
-  const musicLabel = document.getElementById('musicLabel'); 
-  let playing = false; musicBtn.addEventListener('click', ()=>{ 
-    if (playing) { audio.pause(); playing = false; } 
-    else { audio.play().then(()=>{ playing = true; updateUI(); }).catch(()=>{}); 
-          return; } updateUI(); }); 
-  function updateUI(){ musicBtn.textContent = playing ? '⏸' : '🎵'; 
-                      musicLabel.style.display = playing ? 'inline' : 'none'; }
+const audio = document.getElementById('bgAudio'); const musicBtn = document.getElementById('musicBtn'); const musicLabel = document.getElementById('musicLabel'); let playing = false; musicBtn.addEventListener('click', ()=>{ if (playing) { audio.pause(); playing = false; } else { audio.play().then(()=>{ playing = true; updateUI(); }).catch(()=>{}); return; } updateUI(); }); function updateUI(){ musicBtn.textContent = playing ? '⏸' : '🎵'; musicLabel.style.display = playing ? 'inline' : 'none'; }
 
 
 // ---------- open surprise ----------
@@ -300,6 +292,7 @@ document.getElementById('openBtn').addEventListener('click', ()=>{
     document.getElementById('journey').style.display = 'block';
     document.getElementById('musicPill').style.display = 'flex';
     runCountdown();
+    audio.play().then(()=>{playing=true; updateUI();}).catch(()=>{});
     if (navigator.vibrate) navigator.vibrate(15);
   }, 500);
 });
