@@ -167,6 +167,7 @@
 </div>
 
 <div id="musicPill">
+  <audio id="bgAudio" src="song.mp3" loop preload="none"></audio> 
   <button id="musicBtn">🎵</button>
   <span id="musicLabel" style="display:none;">Playing your song…</span>
 </div>
@@ -281,14 +282,15 @@ function runCountdown(){
 }
 
 // ---------- music (placeholder pill — no real audio file in this preview) ----------
-const musicBtn = document.getElementById('musicBtn');
-const musicLabel = document.getElementById('musicLabel');
-let playing = false;
-musicBtn.addEventListener('click', ()=>{
-  playing = !playing;
-  musicBtn.textContent = playing ? '⏸' : '🎵';
-  musicLabel.style.display = playing ? 'inline' : 'none';
-});
+const audio = document.getElementById('bgAudio'); 
+const musicBtn = document.getElementById('musicBtn'); 
+const musicLabel = document.getElementById('musicLabel'); 
+let playing = false; musicBtn.addEventListener('click', ()=>{ 
+  if (playing) { audio.pause(); playing = false; } 
+  else { audio.play().then(()=>{ playing = true; updateUI(); }).catch(()=>{}); 
+        return; } updateUI(); }); 
+  function updateUI(){ musicBtn.textContent = playing ? '⏸' : '🎵'; 
+                      musicLabel.style.display = playing ? 'inline' : 'none'; }
 
 // ---------- open surprise ----------
 document.getElementById('openBtn').addEventListener('click', ()=>{
