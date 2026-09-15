@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>A Little Surprise For You 🎁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0F0A16; --velvet:#1E1027; --plum:#2C1638;
+    --rose:#FF7AA8; --rosedeep:#E14D80; --orchid:#B487F5; --gold:#F2C879; --cream:#FBF0F1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--ink);}
+  body{
+    font-family:'Work Sans',sans-serif;color:var(--cream);
+    background:linear-gradient(to bottom, var(--ink), var(--velvet) 45%, var(--plum));
+    overflow-x:hidden;
+  }
+  .font-display{font-family:'Fraunces',serif;}
+  section{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 1.5rem;text-align:center;position:relative;}
+  .grad-text{background:linear-gradient(90deg,var(--rose),var(--gold),var(--orchid));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  /* particles */
+  #particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+  .p{position:absolute;bottom:-10vh;opacity:.6;animation:drift linear infinite;}
+  @keyframes drift{
+    0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:0;}
+    10%{opacity:.8;} 90%{opacity:.5;}
+    100%{transform:translateY(-115vh) translateX(20px) rotate(25deg);opacity:0;}
+  }
+
+  /* intro */
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem;transition:opacity .9s ease, filter .9s ease, transform .9s ease;}
+  #intro.hide{opacity:0;transform:scale(1.06);filter:blur(12px);pointer-events:none;}
+  #intro .hey{font-size:1.6rem;margin-bottom:.5rem;opacity:0;animation:fadeUp .8s .2s forwards;}
+  #intro .teaser{max-width:20rem;color:rgba(251,240,241,.6);margin-bottom:3rem;opacity:0;animation:fadeUp .8s .45s forwards;}
+  #openBtn{
+    position:relative;display:inline-flex;align-items:center;gap:.6rem;
+    border:1px solid rgba(255,122,168,.3);background:rgba(255,255,255,.05);
+    padding:1rem 2rem;border-radius:999px;color:var(--cream);font-family:'Work Sans';
+    font-size:1rem;font-weight:500;backdrop-filter:blur(6px);cursor:pointer;
+    box-shadow:0 0 40px -10px rgba(255,122,168,.5);opacity:0;animation:fadeUp .8s .75s forwards;
+  }
+  #openBtn:active{transform:scale(.94);}
+  .hint{margin-top:2.5rem;font-size:.75rem;color:rgba(251,240,241,.4);opacity:0;animation:fadeIn 1s 1.4s forwards;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeIn{to{opacity:1;}}
+
+  /* journey */
+  #journey{position:relative;z-index:10;display:none;}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* countdown */
+  #countdown .lead{font-size:1.25rem;color:rgba(251,240,241,.7);font-family:'Fraunces';}
+  #countdown .num{font-size:5rem;font-weight:500;font-family:'Fraunces';}
+  #countdown .happy{font-size:2.4rem;font-family:'Fraunces';font-weight:500;line-height:1.15;max-width:22rem;}
+  #countdown .stage{display:none;}
+  #countdown .stage.active{display:block;animation:fadeUp .6s ease forwards;}
+
+  /* message */
+  #message .line{font-family:'Fraunces';font-size:1.5rem;max-width:26rem;margin:0 auto .9rem;line-height:1.35;}
+
+  /* gallery */
+  #gallery{padding-top:5rem;padding-bottom:6rem;}
+  .gallery-title{margin-bottom:3rem;}
+  .gallery-title h2{font-family:'Fraunces';font-size:1.9rem;margin:0;}
+  .gallery-title p{margin:.4rem 0 0;font-size:.85rem;color:rgba(251,240,241,.5);}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem 1rem;max-width:26rem;margin:0 auto;}
+  @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);max-width:42rem;}}
+  .polaroid{background:rgba(255,255,255,.97);border-radius:2px;padding:.5rem .5rem 1.3rem;box-shadow:0 18px 30px -12px rgba(0,0,0,.55);transition:transform .3s ease;}
+  .polaroid:hover{transform:rotate(0deg) scale(1.03) !important;}
+  .polaroid .ph{aspect-ratio:4/5;border-radius:1px;overflow:hidden;background:linear-gradient(135deg,#2C1638,#1E1027);display:flex;align-items:center;justify-content:center;}
+  .polaroid .ph svg{opacity:.35;}
+  .polaroid figcaption{margin-top:.6rem;text-align:center;font-family:'Fraunces';font-style:italic;font-size:.8rem;color:rgba(15,10,22,.7);}
+
+  /* letter */
+  #letter .card{width:100%;max-width:26rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);border-radius:1rem;padding:2rem 1.6rem;backdrop-filter:blur(6px);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);text-align:left;}
+  #letter .dear{font-family:'Fraunces';font-size:1.2rem;margin:0 0 1.2rem;}
+  #letter p.para{font-family:'Fraunces';font-style:italic;font-size:.92rem;line-height:1.65;color:rgba(251,240,241,.8);margin:0 0 .9rem;opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease;}
+  #letter p.para.in{opacity:1;transform:translateY(0);}
+  #letter .sign{margin-top:1.6rem;border-top:1px solid rgba(255,255,255,.1);padding-top:1rem;text-align:right;opacity:0;transition:opacity .8s ease;}
+  #letter .sign.in{opacity:1;}
+  #letter .sign .who{font-family:'Fraunces';font-style:italic;color:rgba(251,240,241,.6);margin:0;}
+  #letter .sign .name{font-family:'Fraunces';font-size:1.15rem;margin:.2rem 0 0;}
+
+  /* final */
+  #final{overflow:hidden;}
+  #final .rays{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%, rgba(255,122,168,.18), transparent 60%);pointer-events:none;}
+  #final .lead{font-family:'Fraunces';font-size:1.1rem;color:rgba(251,240,241,.6);margin-bottom:1.5rem;}
+  #final h2{font-family:'Fraunces';font-size:1.9rem;max-width:24rem;line-height:1.3;margin:0;}
+  #final h1{font-family:'Fraunces';font-size:2.4rem;font-weight:500;margin-top:2rem;}
+  #final .made{margin-top:4rem;font-size:.75rem;color:rgba(251,240,241,.5);}
+
+  /* music pill */
+  #musicPill{position:fixed;top:max(1rem,env(safe-area-inset-top));right:1rem;z-index:40;display:none;align-items:center;gap:.5rem;border:1px solid rgba(255,255,255,.1);background:rgba(15,10,22,.7);padding:.5rem .8rem;border-radius:999px;backdrop-filter:blur(6px);font-size:.75rem;color:rgba(251,240,241,.7);}
+  #musicPill button{background:rgba(255,255,255,.1);border:none;color:var(--cream);width:2rem;height:2rem;border-radius:999px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #musicPill button:active{transform:scale(.9);}
+
+  canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:50;}
+
+  .note{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(15,10,22,.85);border-top:1px solid rgba(255,255,255,.08);color:rgba(251,240,241,.55);font-size:.7rem;text-align:center;padding:.5rem;backdrop-filter:blur(4px);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<div id="intro">
+  <div class="hey font-display">Hey Astha 👀</div>
+  <p class="teaser">Someone has a little surprise for you…</p>
+  <button id="openBtn">🎁 Open Your Surprise</button>
+  <span class="hint">tap, and don't look away</span>
+</div>
+
+<div id="journey">
+  <section id="countdown">
+    <div class="stage lead active">Wait… before we begin…</div>
+    <div class="stage num">3</div>
+    <div class="stage happy font-display">Happy Birthday,<br><span class="grad-text">Astha</span> 🎂✨</div>
+  </section>
+
+  <section id="message">
+    <div class="line reveal font-display">Today feels a little more special than usual.</div>
+    <div class="line reveal font-display">Because it’s the day someone pretty amazing was born.</div>
+    <div class="line reveal font-display">And I hope every year, I get another reason to celebrate your birthday with you.</div>
+    <div class="line reveal font-display">So today, no overthinking, no big speeches.</div>
+    <div class="line reveal font-display">Just a little reminder that today is all about you.</div>
+  </section>
+
+  <section id="gallery">
+    <div class="gallery-title reveal">
+      <h2>Memories</h2>
+      <p>a few of my favorites</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="letter">
+    <div class="card reveal">
+      <p class="dear">Hi Astha,</p>
+      <p class="para">Hope you have the best day and an even better year ahead. Hope all your dreams come true and you get plenty of reasons to smile this year!</p>
+      <p class="para">Kinda funny that badminton is where we first met 🏸😂 — didn’t think that random game would lead to all these good memories. </p>
+      <p class="para">Since then, every ordinary day you're around somehow turns into a good one. That's not a small thing. That's rare. Hopefully, we get to make a few more memories and actually plan that trip somewhere with everyone soon! ✈️</p>
+      <p class="para">Keep being you — you somehow make things a little more fun. Here’s to another year of good memories… and hopefully a few more with me. 😉🥂</p>
+      <div class="sign">
+        <p class="who">Made with help of AI😂</p>
+        <p class="name">But all Efforts by me(Ayush)</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="rays"></div>
+    <p class="lead reveal">One last thing…</p>
+    <h2 class="reveal">You have this annoying little habit of making ordinary days better. 😌</h2>
+    <h1 class="grad-text reveal">Happy Birthday, Astha 🎂</h1>
+    <p class="made reveal">Made by Ayush!</p>
+  </section>
+</div>
+
+<div id="musicPill">
+  <button id="musicBtn">🎵</button>
+  <span id="musicLabel" style="display:none;">Playing your song…</span>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<div class="note">Live preview — polaroids &amp; song are placeholders. Deploy the full React project (shared below) with your own photos + music for the real link.</div>
+
+<script>
+// ---------- particles ----------
+const pWrap = document.getElementById('particles');
+const symbols = ['❤','✦','❤','✦','❤'];
+for(let i=0;i<14;i++){
+  const el = document.createElement('div');
+  el.className='p';
+  el.textContent = symbols[i % symbols.length];
+  el.style.left = Math.random()*100+'%';
+  el.style.fontSize = (10+Math.random()*16)+'px';
+  el.style.color = i%3===0 ? '#F2C879' : '#FF7AA8';
+  el.style.animationDuration = (14+Math.random()*12)+'s';
+  el.style.animationDelay = (Math.random()*-20)+'s';
+  pWrap.appendChild(el);
+}
+
+// ---------- gallery placeholders ----------
+const captions = ["That smile ❤️","One of my favorite memories","Never forget this day","Still my favorite person","Us, being us","I'd relive this a thousand times"];
+const tilts = [-6,4,-3,6,-5,3];
+const grid = document.getElementById('grid');
+captions.forEach((cap,i)=>{
+  const fig = document.createElement('figure');
+  fig.className='polaroid reveal';
+  fig.style.transform = `rotate(${tilts[i%tilts.length]}deg)`;
+  fig.innerHTML = `<div class="ph"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FF7AA8" stroke-width="1.4"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg></div><figcaption>${cap}</figcaption>`;
+  grid.appendChild(fig);
+});
+
+// ---------- scroll reveal ----------
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+},{threshold:0.35});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay = (i%6)*0.1+'s';
+  io.observe(el);
+});
+document.querySelectorAll('#letter .para, #letter .sign').forEach((el,i)=>{
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ setTimeout(()=>el.classList.add('in'), 300+i*350); obs.disconnect(); } });
+  },{threshold:0.3});
+  obs.observe(el);
+});
+
+// ---------- confetti ----------
+function burstConfetti(originY=0.3){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio||1,2);
+  canvas.width = innerWidth*dpr; canvas.height = innerHeight*dpr;
+  canvas.style.width='100%'; canvas.style.height='100%';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const colors=['#FF7AA8','#F2C879','#B487F5','#E14D80','#FBF0F1'];
+  const originX = innerWidth/2, startY = innerHeight*originY;
+  const pieces = Array.from({length:70}).map(()=>({
+    x:originX+(Math.random()-0.5)*120, y:startY,
+    vx:(Math.random()-0.5)*6, vy:-(Math.random()*6+4),
+    size:5+Math.random()*5, color:colors[Math.floor(Math.random()*colors.length)],
+    rotation:Math.random()*360, spin:(Math.random()-0.5)*12
+  }));
+  let start; const duration=2400;
+  function draw(ts){
+    if(!start) start=ts;
+    const elapsed = ts-start;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.vy+=0.18; p.x+=p.vx; p.y+=p.vy; p.rotation+=p.spin;
+      const fade = Math.max(0,1-elapsed/duration);
+      ctx.save(); ctx.globalAlpha=fade; ctx.translate(p.x,p.y); ctx.rotate(p.rotation*Math.PI/180);
+      ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/3,p.size,p.size*0.6); ctx.restore();
+    });
+    if(elapsed<duration) requestAnimationFrame(draw); else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  requestAnimationFrame(draw);
+}
+
+// ---------- final section confetti trigger ----------
+const finalObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ burstConfetti(0.25); finalObs.disconnect(); } });
+},{threshold:0.5});
+finalObs.observe(document.getElementById('final'));
+
+// ---------- countdown sequence ----------
+function runCountdown(){
+  const stages = document.querySelectorAll('#countdown .stage');
+  const [lead, num, happy] = stages;
+  let count = 3;
+  setTimeout(()=>{
+    lead.classList.remove('active');
+    num.textContent = count;
+    num.classList.add('active');
+    const tick = setInterval(()=>{
+      count--;
+      if(count>0){
+        num.classList.remove('active'); void num.offsetWidth;
+        num.textContent = count; num.classList.add('active');
+      } else {
+        clearInterval(tick);
+        num.classList.remove('active');
+        happy.classList.add('active');
+      }
+    },750);
+  },1100);
+}
+
+// ---------- music (placeholder pill — no real audio file in this preview) ----------
+const musicBtn = document.getElementById('musicBtn');
+const musicLabel = document.getElementById('musicLabel');
+let playing = false;
+musicBtn.addEventListener('click', ()=>{
+  playing = !playing;
+  musicBtn.textContent = playing ? '⏸' : '🎵';
+  musicLabel.style.display = playing ? 'inline' : 'none';
+});
+
+// ---------- open surprise ----------
+document.getElementById('openBtn').addEventListener('click', ()=>{
+  document.getElementById('intro').classList.add('hide');
+  setTimeout(()=>{
+    document.getElementById('journey').style.display = 'block';
+    document.getElementById('musicPill').style.display = 'flex';
+    runCountdown();
+    if (navigator.vibrate) navigator.vibrate(15);
+  }, 500);
+});
+</script>
+</body>
+</html>
